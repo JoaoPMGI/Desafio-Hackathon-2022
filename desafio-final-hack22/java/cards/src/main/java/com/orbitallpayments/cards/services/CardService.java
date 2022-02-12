@@ -3,6 +3,8 @@ package com.orbitallpayments.cards.services;
 import com.orbitallpayments.cards.models.Card;
 import com.orbitallpayments.cards.repositories.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,5 +37,10 @@ public class CardService {
     // Method to delete a register by id in the database
     public void delete(Card card){
         cardRepository.delete(card);
+    }
+
+    // Method to get a list of all register in the database ordered
+    public Page<Card> findAllPage(Pageable pageable) {
+        return cardRepository.findAll(pageable);
     }
 }

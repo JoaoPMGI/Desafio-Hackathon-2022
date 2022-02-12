@@ -3,6 +3,11 @@ package com.orbitallpayments.cards.controllers;
 import com.orbitallpayments.cards.models.Card;
 import com.orbitallpayments.cards.services.CardService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -72,5 +77,14 @@ public class CardController {
         cardService.delete(card.get());
 
         return new ResponseEntity("Registro deletado com sucesso!", HttpStatus.OK);
+    }
+
+    // GET - list of all registers ordered by customer name
+    @GetMapping("/paginationAndSorting")
+    public ResponseEntity<Page<Card>> findAllPageCard(@PageableDefault(page = 0, size = 5, sort = "customerName", direction = Sort.Direction.ASC) Pageable pageable){
+
+        Page<Card> cardList = cardService.findAllPage(pageable);
+
+        return new ResponseEntity(cardList, HttpStatus.OK);
     }
 }
