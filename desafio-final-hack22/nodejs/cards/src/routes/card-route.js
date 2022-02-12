@@ -6,6 +6,10 @@ module.exports = (app) => {
     .post(api.save)
     .get(api.findAll)
     
+    // api endpoint ordered
+    app.route("/cards/paginationAndSorting")
+    .get(api.findAllPage)
+
     // api enpoint with params
     app.route("/cards/:id")
     .get(api.findById)

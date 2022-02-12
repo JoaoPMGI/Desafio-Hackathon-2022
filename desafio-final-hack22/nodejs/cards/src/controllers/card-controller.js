@@ -107,4 +107,22 @@ api.delete = (req, res) => {
     });
 };
 
+//GET - get all the registers from database ordered by customer name
+api.findAllPage = (req, res) => {
+    nedb.find({ }).sort({ customerName:1 }).skip(0).limit(3).exec( (exception, cardList) => { 
+        if(exception){
+            const sentence = `Não foi possível retornar a lista de todos os registros no banco de dados.`;
+            console.error(`Erro: ${sentence} - \n${exception}`);
+
+            res.status(exception.status | 404);
+            res.json({ "message": sentence });
+        };
+
+        console.log("Card list: \n" + cardList);
+
+        //res.status(200) -> not necessary, 200 is default
+        res.json(cardList);
+    });
+}
+
 module.exports = api;
